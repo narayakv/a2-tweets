@@ -37,8 +37,6 @@ class Tweet {
         if(!this.written) {
             return "";
         }
-        //TODO: parse the written text from the tweet
-
         // get everything after the -
         let comment = this.text.split(" - ")[1];
 
@@ -53,8 +51,33 @@ class Tweet {
         if (this.source != 'completed_event') {
             return "unknown";
         }
-        //TODO: parse the activity type from the text of the tweet
-        return "";
+        
+        // split tweet into individual words
+        let words = this.text.split(" ");
+
+        // check if the tweet includes a distance
+        if (words[4] == "km" || words[4] == "mi") {
+            // extract eveything after the distance which always starts at index 5
+            // join combines them back into a single string
+            let activity = words.slice(5).join(" ");
+
+            // remove everything after the activity name
+            activity = activity.split(" with ")[0];
+            activity = activity.split(" - ")[0];
+
+            // remove extra spaces before returning the activity
+            return activity.trim();
+        }
+
+        // for tweets that don't have a distance
+        let activity = words.slice(4).join(" ");
+
+        // remove the duration, Runkeeper message, or personal comment
+        activity = activity.split(" in ")[0];
+        activity = activity.split(" with ")[0];
+        activity = activity.split(" - ")[0];
+
+        return activity.trim();    
     }
 
     get distance():number {
