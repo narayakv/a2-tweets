@@ -85,6 +85,22 @@ class Tweet {
             return 0;
         }
         //TODO: prase the distance from the text of the tweet
+        
+        // Split the tweet into individual words
+        let words = this.text.split(" ");
+
+        // extract the distance and conver to number
+        let distance = parseFloat(words[3]);
+
+        // convert km to mi
+        if (words[4] == "km") {
+            return distance * 0.621371;
+        }
+        else if (words[4] == "mi") {
+            return distance;
+        }
+
+        // return 0 if the activity doesn't have a distance
         return 0;
     }
 
