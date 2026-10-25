@@ -9,7 +9,6 @@ class Tweet {
 
 	//returns either 'live_event', 'achievement', 'completed_event', or 'miscellaneous'
     get source():string {
-        //TODO: identify whether the source is a live event, an achievement, a completed event, or miscellaneous.
         if (this.text.startsWith("Just completed") || this.text.startsWith("Just posted")) {
             return "completed_event";
         }
@@ -26,8 +25,12 @@ class Tweet {
 
     //returns a boolean, whether the text includes any content written by the person tweeting.
     get written():boolean {
-        //TODO: identify whether the tweet is written
-        return false;
+        // Noticed that if it is written, there is personal context after a -
+        if (this.source != "completed_event") {
+            return false;
+        }
+        
+        return this.text.includes(" - ");
     }
 
     get writtenText():string {
@@ -35,7 +38,15 @@ class Tweet {
             return "";
         }
         //TODO: parse the written text from the tweet
-        return "";
+
+        // get everything after the -
+        let comment = this.text.split(" - ")[1];
+
+        // remove the url and everything after it
+        comment = comment.split("https://")[0];
+
+        // remove extra spaces
+        return comment.trim();
     }
 
     get activityType():string {
