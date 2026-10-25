@@ -84,7 +84,6 @@ class Tweet {
         if(this.source != 'completed_event') {
             return 0;
         }
-        //TODO: prase the distance from the text of the tweet
         
         // Split the tweet into individual words
         let words = this.text.split(" ");
@@ -105,7 +104,19 @@ class Tweet {
     }
 
     getHTMLTableRow(rowNumber:number):string {
-        //TODO: return a table row which summarizes the tweet with a clickable link to the RunKeeper activity
-        return "<tr></tr>";
+        // Extract the URL from the tweet
+        let url = this.text.split("https://")[1];
+        url = "https://" + url.split(" ")[0]
+
+        // crete a table row containing the information
+        let row = `
+        <tr>
+            <td>${rowNumber}</td>
+            <td>${this.activityType}</td>
+            <td><a href="${url}">${this.writtenText}</a></td>
+        </tr>
+        `;
+        
+        return row;
     }
 }
