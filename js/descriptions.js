@@ -42,6 +42,15 @@ function addEventHandlerForSearch() {
 		}
 		// Update the number of matching tweets displayed on the page
 		document.getElementById("searchCount").innerText = matchingTweets.length;
+
+		// get the table body and clear the previous results from the search
+		var table = document.getElementById("tweetTable");
+		table.innerHTML = "";
+
+		// add a row for each matching tweet
+		for (var i = 0; i < matchingTweets.length; i++) {
+			table.innerHTML += matchingTweets[i].getHTMLTableRow(i + 1);
+		}
 		//update the search text displayed as it is typed
 		document.getElementById("searchText").innerText = searchText;
 	});
