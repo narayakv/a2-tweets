@@ -46,6 +46,49 @@ function parseTweets(runkeeper_tweets) {
 
 	document.getElementById("lastDate").innerText =
 		lastDate.toLocaleDateString("en-US", dateOptions);
+
+
+	// counters for each tweet category
+	var completedEvents = 0;
+	var liveEvents = 0;
+	var achievements = 0;
+	var miscellaneous = 0;
+
+	// loop through all tweets and count each category
+	for (var i = 0; i < tweet_array.length; i++) {
+		if (tweet_array[i].source == "completed_event") {
+			completedEvents++;
+		}
+		else if (tweet_array[i].source == "live_event") {
+			liveEvents++;
+		}
+		else if (tweet_array[i].source == "achievement") {
+			achievements++;
+		}
+		else {
+			miscellaneous++;
+		}
+	}
+
+	// update the html file with the number of tweets in each category
+	document.querySelector(".completedEvents").innerText = completedEvents;
+	document.querySelector(".liveEvents").innerText = liveEvents;
+	document.querySelector(".achievements").innerText = achievements;
+	document.querySelector(".miscellaneous").innerText = miscellaneous;
+
+
+	// calculate and display the percentage of tweets in each category
+	document.querySelector(".completedEventsPct").innerText =
+		math.format(completedEvents / tweet_array.length * 100, {notation: "fixed", precision: 2}) + "%";
+
+	document.querySelector(".liveEventsPct").innerText =
+		math.format(liveEvents / tweet_array.length * 100, {notation: "fixed", precision: 2}) + "%";
+
+	document.querySelector(".achievementsPct").innerText =
+		math.format(achievements / tweet_array.length * 100, {notation: "fixed", precision: 2}) + "%";
+
+	document.querySelector(".miscellaneousPct").innerText =
+		math.format(miscellaneous / tweet_array.length * 100, {notation: "fixed", precision: 2}) + "%";
 }
 
 //Wait for the DOM to load
