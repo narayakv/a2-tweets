@@ -83,7 +83,6 @@ function parseTweets(runkeeper_tweets) {
 	  "data": {
 	    "values": activityData
 	  },
-	  //TODO: Add mark and encoding
 	  "mark": "bar",
 	  "encoding": {
 		"x": {
@@ -104,6 +103,39 @@ function parseTweets(runkeeper_tweets) {
 
 	//TODO: create the visualizations which group the three most-tweeted activities by the day of the week.
 	//Use those visualizations to answer the questions about which activities tended to be longest and when.
+
+	// keep only the completed tweets for the three most popular activities
+	var topThreeTweets = completed_tweets.filter(function(tweet) {
+				// run
+		return (tweet.activityType == sortedActivities[0] ||
+			   // walk
+			   tweet.activityType == sortedActivities[1] ||
+			   // bike
+			   tweet.activityType == sortedActivities[2]) &&
+			   // exclude distances of 0	  
+			   tweet.distance > 0;
+	});
+
+	// create an array to store the data for the distance graphs
+	var distanceData = [];
+
+	for (var i = 0; i < topThreeTweets.length; i++) {
+		// get the current tweet
+		var tweet = topThreeTweets[i];
+
+		// get the day of the week when that activity was done
+		var day = tweet.time.toLocaleDateString("en-US", {
+			weekday: "long"
+		});
+
+		// add an object containig the activity type, distance, and day to the array
+		distanceData.push({
+			activityType: tweet.activityType,
+			distance: tweet.distance,
+			day: day
+		});
+	}
+	console.log(distanceData.slice(0, 10));
 }
 
 //Wait for the DOM to load
