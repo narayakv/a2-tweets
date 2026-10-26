@@ -152,8 +152,63 @@ function parseTweets(runkeeper_tweets) {
 		}
 	};
 
+	distance_vis_aggregated_spec = {
+		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+	  	"description": "A graph of the distances of the three most popular activities by day of the week.",
+	  	"data": {
+	    	"values": distanceData
+	  	},
+		"mark": "point",
+		"encoding": {
+			"x": {
+				"field": "day",
+				"type": "ordinal",
+				"sort": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+				"title": "Day of the Week"
+			},
+			"y": {
+				"field": "distance",
+				"type": "quantitative",
+				"aggregate": "mean",
+				"title": "Mean Distance (miles)"
+			},
+			"color": {
+				"field": "activityType",
+				"type": "nominal",
+				"title": "Activity Type"
+			}
+		}
+	};
+
 	// display the distance graph
 	vegaEmbed('#distanceVis', distance_vis_spec, {actions:false});
+
+	// display the graph of the aggregate activity distances
+	vegaEmbed('#distanceVisAggregated', distance_vis_aggregated_spec, {actions:false});
+
+	// hide the mean distance graph so we can use the button
+	document.getElementById("distanceVisAggregated").style.display = "none";
+
+	// get the button and the two graph containers
+	var aggregateButton = document.getElementById("aggregate");
+	var distanceGraph = document.getElementById("distanceVis");
+	var meanGraph = document.getElementById("distanceVisAggregated");
+
+	// switch between the two graphs
+	aggregateButton.addEventListener("click", function() {
+		if (meanGraph.style.display == "none") {
+			// show the mean graph and hide the individual distnaces graph
+			distanceGraph.style.display = "none";
+			meanGraph.style.display = "block";
+			aggregateButton.innerText = "Show all activities";
+		}
+		else {
+			// show the individual distances graph and hide the mean graph
+			meanGraph.style.display = "none";
+			distanceGraph.style.display = "block";
+			aggregateButton.innerText = "Show means";
+		}
+	});
 }
 
 //Wait for the DOM to load
