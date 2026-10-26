@@ -16,6 +16,47 @@ function parseTweets(runkeeper_tweets) {
 		return tweet.source == "completed_event";
 	});
 
+	// store the number of tweets for each activity type
+	var activityCounts = {};
+
+	// count how many times each activity appears
+	for (var i = 0; i < completed_tweets.length; i++) {
+		// get the type of activity of this completed tweet
+		var activity = completed_tweets[i].activityType;
+		
+		// if it's the activity has not appeared yet, initialize the count to 1
+		if (activityCounts[activity] == undefined) {
+			activityCounts[activity] = 1;
+		}
+		// otherwise increment the count
+		else {
+			activityCounts[activity]++;
+		}
+	}
+
+	// get the activity names and sort them by frequency
+	var sortedActivities = Object.keys(activityCounts).sort(function(a, b) {
+		return activityCounts[b] - activityCounts[a];
+	});
+
+	// display the total number of different activity types
+	document.getElementById("numberActivities").innerText = sortedActivities.length;
+
+	// display the three most popular activity types
+	document.getElementById("firstMost").innerText = sortedActivities[0];
+	document.getElementById("secondMost").innerText = sortedActivities[1];
+	document.getElementById("thirdMost").innerText = sortedActivities[2];
+
+	for (var i = 0; i < completed_tweets.length; i++) {
+		if (completed_tweets[i].activityType == "in 31:00") {
+			console.log(completed_tweets[i].text);
+		}
+	}
+
+	console.log(sortedActivities);
+
+	console.log(activityCounts);
+
 	console.log(completed_tweets.length);
 
 	for (var i = 0; i < 10; i++) {

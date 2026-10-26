@@ -15,6 +15,7 @@
 
 .map()
 .filter()
+sorting for part 2
 
 4. What classmates or other individuals did you consult as part of this assignment? What did you discuss?
 

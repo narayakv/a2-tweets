@@ -57,7 +57,7 @@ class Tweet {
 
         // check if the tweet includes a distance
         if (words[4] == "km" || words[4] == "mi") {
-            // extract eveything after the distance which always starts at index 5
+            // extract eveything after the distance which mostly starts at index 5
             // join combines them back into a single string
             let activity = words.slice(5).join(" ");
 
@@ -70,7 +70,7 @@ class Tweet {
         }
 
         // for tweets that don't have a distance
-        let activity = words.slice(4).join(" ");
+        let activity = words.slice(3).join(" ");
 
         // remove the duration, Runkeeper message, or personal comment
         activity = activity.split(" in ")[0];
