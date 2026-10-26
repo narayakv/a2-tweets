@@ -39,6 +39,20 @@ function parseTweets(runkeeper_tweets) {
 		return activityCounts[b] - activityCounts[a];
 	});
 
+	// create an array containing the activity types and their counts for the graph
+	var activityData = [];
+
+	for (var i = 0; i < sortedActivities.length; i++) {
+		// get the name of the current activity
+		var activity = sortedActivities[i];
+
+		// add an object containing the activity name and its count to the array
+		activityData.push({
+			activityType: activity,
+			count: activityCounts[activity]
+		});
+	}
+
 	// display the total number of different activity types
 	document.getElementById("numberActivities").innerText = sortedActivities.length;
 
@@ -67,9 +81,24 @@ function parseTweets(runkeeper_tweets) {
 	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 	  "description": "A graph of the number of Tweets containing each type of activity.",
 	  "data": {
-	    "values": tweet_array
-	  }
+	    "values": activityData
+	  },
 	  //TODO: Add mark and encoding
+	  "mark": "bar",
+	  "encoding": {
+		"x": {
+			"field": "activityType",
+			"type": "nominal",
+			// sort in descending order so it's easier to read
+			"sort": "-y",
+			"title": "Activity Type"
+		},
+		"y": {
+			"field": "count",
+			"type": "quantitative",
+			"title": "Number of Tweets"
+		}
+	  }
 	};
 	vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
 
