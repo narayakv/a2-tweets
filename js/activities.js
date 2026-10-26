@@ -61,17 +61,6 @@ function parseTweets(runkeeper_tweets) {
 	document.getElementById("secondMost").innerText = sortedActivities[1];
 	document.getElementById("thirdMost").innerText = sortedActivities[2];
 
-	for (var i = 0; i < completed_tweets.length; i++) {
-		if (completed_tweets[i].activityType == "in 31:00") {
-			console.log(completed_tweets[i].text);
-		}
-	}
-
-	console.log(sortedActivities);
-
-	console.log(activityCounts);
-
-	console.log(completed_tweets.length);
 
 	for (var i = 0; i < 10; i++) {
 		console.log(completed_tweets[i].activityType);
@@ -101,8 +90,7 @@ function parseTweets(runkeeper_tweets) {
 	};
 	vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
 
-	//TODO: create the visualizations which group the three most-tweeted activities by the day of the week.
-	//Use those visualizations to answer the questions about which activities tended to be longest and when.
+
 
 	// keep only the completed tweets for the three most popular activities
 	var topThreeTweets = completed_tweets.filter(function(tweet) {
@@ -135,7 +123,37 @@ function parseTweets(runkeeper_tweets) {
 			day: day
 		});
 	}
-	console.log(distanceData.slice(0, 10));
+
+	// create a graph for activity distances by day of the week
+	distance_vis_spec = {
+		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+	  	"description": "A graph of the distances of the three most popular activities by day of the week.",
+	  	"data": {
+	    	"values": distanceData
+	  	},
+		"mark": "point",
+		"encoding": {
+			"x": {
+				"field": "day",
+				"type": "ordinal",
+				"sort": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+				"title": "Day of the Week"
+			},
+			"y": {
+				"field": "distance",
+				"type": "quantitative",
+				"title": "Distance (miles)"
+			},
+			"color": {
+				"field": "activityType",
+				"type": "nominal",
+				"title": "Activity Type"
+			}
+		}
+	};
+
+	// display the distance graph
+	vegaEmbed('#distanceVis', distance_vis_spec, {actions:false});
 }
 
 //Wait for the DOM to load
