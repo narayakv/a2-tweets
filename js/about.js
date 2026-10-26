@@ -71,7 +71,14 @@ function parseTweets(runkeeper_tweets) {
 	}
 
 	// update the html file with the number of tweets in each category
-	document.querySelector(".completedEvents").innerText = completedEvents;
+	// update both places that display the number of completed events
+	var completedElements = document.querySelectorAll(".completedEvents");
+
+	for (var i = 0; i < completedElements.length; i++) {
+		completedElements[i].innerText = completedEvents;
+	}
+
+	//update the others normally
 	document.querySelector(".liveEvents").innerText = liveEvents;
 	document.querySelector(".achievements").innerText = achievements;
 	document.querySelector(".miscellaneous").innerText = miscellaneous;
@@ -89,6 +96,24 @@ function parseTweets(runkeeper_tweets) {
 
 	document.querySelector(".miscellaneousPct").innerText =
 		math.format(miscellaneous / tweet_array.length * 100, {notation: "fixed", precision: 2}) + "%";
+
+
+	
+	// count completed-event tweets that contain user-written text
+	var written = 0;
+
+	for (var i = 0; i < tweet_array.length; i++) {
+		if (tweet_array[i].source == "completed_event" && tweet_array[i].written) {
+			written++;
+		}
+	}
+
+	// update the html to show the comleted-event and user-written counts
+	document.querySelector(".written").innerText = written;
+
+	// calculate the percentage of completed events with written text
+	document.querySelector(".writtenPct").innerText =
+    	math.format(written / completedEvents * 100, {notation: "fixed", precision: 2}) + "%";
 }
 
 //Wait for the DOM to load
