@@ -9,7 +9,6 @@ function parseTweets(runkeeper_tweets) {
 		return new Tweet(tweet.text, tweet.created_at);
 	});
 
-	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
 
 	// keep only tweets about completed activities
 	var completed_tweets = tweet_array.filter(function(tweet) {
@@ -61,10 +60,6 @@ function parseTweets(runkeeper_tweets) {
 	document.getElementById("secondMost").innerText = sortedActivities[1];
 	document.getElementById("thirdMost").innerText = sortedActivities[2];
 
-
-	for (var i = 0; i < 10; i++) {
-		console.log(completed_tweets[i].activityType);
-	} 
 
 	activity_vis_spec = {
 	  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
@@ -209,6 +204,11 @@ function parseTweets(runkeeper_tweets) {
 			aggregateButton.innerText = "Show means";
 		}
 	});
+
+	// display the conclusion from the graph (hardcoded)
+	document.getElementById("longestActivityType").innerText = "bike";
+	document.getElementById("shortestActivityType").innerText = "walk";
+	document.getElementById("weekdayOrWeekendLonger").innerText = "weekends";
 }
 
 //Wait for the DOM to load
