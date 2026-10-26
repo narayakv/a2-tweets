@@ -13,7 +13,8 @@
 
 3. What online resources did you consult when completing this assignment? (list sites like StackOverflow or specific URLs for tutorials; describe queries to Generative AI or use of AI-based code completion)
 
-
+.map()
+.filter()
 
 4. What classmates or other individuals did you consult as part of this assignment? What did you discuss?
 
