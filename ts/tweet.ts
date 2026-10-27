@@ -106,7 +106,7 @@ class Tweet {
     getHTMLTableRow(rowNumber:number):string {
         // Extract the URL from the tweet
         let url = this.text.split("https://")[1];
-        url = "https://" + url.split(" ")[0]
+        url = "https://" + url.split(" ")[0];
 
         // crete a table row containing the information
         let row = `
